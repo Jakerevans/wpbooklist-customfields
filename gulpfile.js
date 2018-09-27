@@ -22,10 +22,10 @@ var gulp   = require( 'gulp' ),
 	del    = require( 'del' );
 
 // Define file sources.
-var sassFrontendSource        = [ 'dev/scss/wpbooklist-mpextensionboilerplate-main-frontend.scss' ];
-var sassFrontendSourcePartial = [ 'dev/scss/_wpbooklist-mpextensionboilerplate-frontend-ui.scss' ];
-var sassBackendSource         = [ 'dev/scss/wpbooklist-mpextensionboilerplate-main-admin.scss' ];
-var sassBackendSourcePartial  = [ 'dev/scss/_wpbooklist-mpextensionboilerplate-backend-ui.scss' ];
+var sassFrontendSource        = [ 'dev/scss/wpbooklist-customfields-main-frontend.scss' ];
+var sassFrontendSourcePartial = [ 'dev/scss/_wpbooklist-customfields-frontend-ui.scss' ];
+var sassBackendSource         = [ 'dev/scss/wpbooklist-customfields-main-admin.scss' ];
+var sassBackendSourcePartial  = [ 'dev/scss/_wpbooklist-customfields-backend-ui.scss' ];
 var sassWatch                 = [ 'dev/scss/*.scss' ];
 var jsBackendSource           = [ 'dev/js/backend/*.js' ];
 var jsFrontendSource          = [ 'dev/js/frontend/*.js' ];
@@ -60,7 +60,7 @@ gulp.task( 'sassBackendSource', function() {
 // Task to concatenate and uglify js files
 gulp.task( 'concatAdminJs', function() {
 	gulp.src(jsBackendSource ) // use jsSources
-		.pipe(concat( 'wpbooklist_mpextensionboilerplate_admin.min.js' ) ) // Concat to a file named 'script.js'
+		.pipe(concat( 'wpbooklist_customfields_admin.min.js' ) ) // Concat to a file named 'script.js'
 		.pipe(uglify() ) // Uglify concatenated file
 		.pipe(gulp.dest( 'assets/js' ) ); // The destination for the concatenated and uglified file
 });
@@ -68,7 +68,7 @@ gulp.task( 'concatAdminJs', function() {
 // Task to concatenate and uglify js files
 gulp.task( 'concatFrontendJs', function() {
 	gulp.src(jsFrontendSource ) // use jsSources
-		.pipe(concat( 'wpbooklist_mpextensionboilerplate_frontend.min.js' ) ) // Concat to a file named 'script.js'
+		.pipe(concat( 'wpbooklist_customfields_frontend.min.js' ) ) // Concat to a file named 'script.js'
 		.pipe(uglify() ) // Uglify concatenated file
 		.pipe(gulp.dest( 'assets/js' ) ); // The destination for the concatenated and uglified file
 });

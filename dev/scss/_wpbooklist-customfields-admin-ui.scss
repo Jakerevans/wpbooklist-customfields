@@ -1,0 +1,63 @@
+/**
+ * SCSS - _wpbooklist-customfields-admin-ui.scss - Holds CSS that is specific to the contents of the Admin containers for all of the CustomFields tabs.
+ *
+ * @author   Jake Evans
+ * @category SCSS
+ * @package  Includes/Assets/CSS
+ * @version  6.0.0
+ */
+
+ .wpbooklist-customfields-create-input-div{
+ 	display: inline-block;
+ }
+
+ .wpbooklist-customfields-create-input-div-dynamic{
+ 	display: block;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width:300px;
+ }
+
+ #wpbooklist-customfields-create-inner-wrapper{
+ 	text-align:center;
+ 	margin-top:50px;
+ }
+
+ .wpbooklist-customfield-input{
+ 	width: 200px;
+ }
+
+#wpbooklist-customfields-dynamic-html-div{
+	text-align: center;
+    height: 0px;
+    margin-top: 30px;
+	opacity:0;
+}
+
+#wpbooklist-customfield-input-fieldname-dropdown-option{
+	width: 270px;
+}
+
+#wpbooklist-customfields-create-drop-down-div{
+	position: relative;
+}
+
+.wpbooklist-addition-div-customfields{
+	position: absolute;
+    right: -42px;
+    bottom: 8px;
+    cursor: pointer;
+}
+
+.wpbooklist-addition-div-customfields-cancel{
+	right: 0px;
+    position: absolute;
+    bottom: 8px;
+    cursor: pointer;
+}
+
+ .wpbooklist-addition-div-img-cancel{
+ 	width:10px;
+ }
+

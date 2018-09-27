@@ -1,6 +1,6 @@
 <?php
 /**
- * WPBookList MpExtensionBoilerplate Tab
+ * WPBookList CustomFields Tab
  *
  * @author   Jake Evans
  * @category Extension Ui
@@ -12,27 +12,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists( 'WPBookList_MpExtensionBoilerplate', false ) ) :
+if ( ! class_exists( 'WPBookList_CustomFields', false ) ) :
 	/**
 	 * WPBookList_Admin_Menu Class.
 	 */
-	class WPBookList_MpExtensionBoilerplate {
+	class WPBookList_CustomFields {
 
 		/**
 		 * Class Constructor
 		 */
 		public function __construct() {
 			require_once CLASS_DIR . 'class-admin-ui-template.php';
-			require_once MPEXTENSIONBOILERPLATE_CLASS_DIR . 'class-mpextensionboilerplate-form.php';
+			require_once CUSTOMFIELDS_CLASS_DIR . 'class-create-customfields-form.php';
 
 			// Get Translations.
-			require_once MPEXTENSIONBOILERPLATE_CLASS_TRANSLATIONS_DIR . 'class-wpbooklist-mpextensionboilerplate-translations.php';
-			$this->trans = new WPBookList_MpExtensionBoilerplate_Translations();
+			require_once CUSTOMFIELDS_CLASS_TRANSLATIONS_DIR . 'class-wpbooklist-customfields-translations.php';
+			$this->trans = new WPBookList_CustomFields_Translations();
 			$this->trans->trans_strings();
 
 			// Instantiate the class.
 			$this->template = new WPBookList_Admin_UI_Template();
-			$this->form     = new WPBookList_MpExtensionBoilerplate_Form();
+			$this->form     = new WPBookList_Create_CustomFields_Form();
 			$this->output_open_admin_container();
 			$this->output_tab_content();
 			$this->output_close_admin_container();
@@ -43,8 +43,8 @@ if ( ! class_exists( 'WPBookList_MpExtensionBoilerplate', false ) ) :
 		 * Opens the admin container for the tab
 		 */
 		private function output_open_admin_container(){
-			$title = 'MpExtensionBoilerplate General Settings';
-			$icon_url = MPEXTENSIONBOILERPLATE_ROOT_IMG_URL.'book.svg';
+			$title = 'Create Custom Fields';
+			$icon_url = CUSTOMFIELDS_ROOT_IMG_URL.'book.svg';
 			echo $this->template->output_open_admin_container($title, $icon_url);
 		}
 
@@ -52,7 +52,7 @@ if ( ! class_exists( 'WPBookList_MpExtensionBoilerplate', false ) ) :
 		 * Outputs actual tab contents
 		 */
 		private function output_tab_content(){
-			echo $this->form->output_mpextensionboilerplate_form();
+			echo $this->form->output_customfields_form();
 		}
 
 		/**
@@ -74,4 +74,4 @@ if ( ! class_exists( 'WPBookList_MpExtensionBoilerplate', false ) ) :
 endif;
 
 // Instantiate the class
-$cm = new WPBookList_MpExtensionBoilerplate;
+$cm = new WPBookList_CustomFields;
