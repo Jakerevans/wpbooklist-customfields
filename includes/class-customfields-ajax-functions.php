@@ -23,10 +23,15 @@ if ( ! class_exists( 'CustomFields_Ajax_Functions', false ) ) :
 		 */
 		public function __construct() {
 
+			global $wpdb;
+
 			// Get Translations.
 			require_once CUSTOMFIELDS_CLASS_TRANSLATIONS_DIR . 'class-wpbooklist-customfields-translations.php';
 			$this->trans = new WPBookList_CustomFields_Translations();
 			$this->trans->trans_strings();
+
+			// Get all of the possible User-created Libraries.
+			$this->dynamic_libs = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'wpbooklist_jre_list_dynamic_db_names' );
 
 		}
 
@@ -40,6 +45,11 @@ if ( ! class_exists( 'CustomFields_Ajax_Functions', false ) ) :
 
 			if ( isset( $_POST['name'] ) ) {
 				$name = filter_var( wp_unslash( $_POST['name'] ), FILTER_SANITIZE_STRING );
+
+				// If the name contains any spaces, replace with underscores.
+				if ( false !== stripos( $name, ' ' ) ) {
+					$name = str_replace( ' ', '_', $name );
+				}
 			}
 
 			if ( isset( $_POST['type'] ) ) {
@@ -84,9 +94,23 @@ if ( ! class_exists( 'CustomFields_Ajax_Functions', false ) ) :
 					$default_column_create_result = $wpdb->query( "ALTER TABLE $default_book_log ADD " . $name . ' varchar(255)' );
 				}
 
+				// Adding custom field to all dynamic libraries.
+				foreach ( $this->dynamic_libs as $db ) {
 
+					// If it's a Paragraph type, create column as MEDIUMTEXT, otherwise, as varchar(255).
+					$wpdb->prefix . 'wpbooklist_jre_' . $db->user_table_name;
+					if ( $this->trans->trans_12 === $type ) {
+						$result = $wpdb->query( 'ALTER TABLE ' . $wpdb->prefix . 'wpbooklist_jre_' . $db->user_table_name . ' ADD ' . $name . ' MEDIUMTEXT' );
 
-				wp_die( $default_column_create_result . '--sep--' .  );
+						$default_column_create_result = $default_column_create_result . '--sep--' . $result . '--sep--' . $wpdb->prefix . 'wpbooklist_jre_' . $db->user_table_name;
+					} else {
+						$result = $wpdb->query( 'ALTER TABLE ' . $wpdb->prefix . 'wpbooklist_jre_' . $db->user_table_name . ' ADD . ' . $name . ' varchar(255)' );
+
+						$default_column_create_result = $default_column_create_result . '--sep--' . $result . '--sep--' . $wpdb->prefix . 'wpbooklist_jre_' . $db->user_table_name;
+					}
+				}
+
+				wp_die( $default_column_create_result );
 			}
 
 		}
