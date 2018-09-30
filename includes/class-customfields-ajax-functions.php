@@ -1,6 +1,6 @@
 <?php
 /**
- * Class CustomFields_Ajax_Functions - class-wpbooklist-ajax-functions.php
+ * Class CustomFields_Ajax_Functions - class-customfields-ajax-functions.php
  *
  * @author   Jake Evans
  * @category Admin
@@ -84,7 +84,7 @@ if ( ! class_exists( 'CustomFields_Ajax_Functions', false ) ) :
 					$default_column_create_result = $wpdb->query( "ALTER TABLE $default_book_log ADD " . $name . ' varchar(255)' );
 				}
 
-				
+
 
 				wp_die( $default_column_create_result . '--sep--' .  );
 			}
