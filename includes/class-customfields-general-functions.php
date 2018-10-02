@@ -18,6 +18,21 @@ if ( ! class_exists( 'CustomFields_General_Functions', false ) ) :
 	 */
 	class CustomFields_General_Functions {
 
+		/**
+		 * Class Constructor.
+		 */
+		public function __construct() {
+
+			global $wpdb;
+
+			// Get all of the possible User-created Libraries.
+			$this->dynamic_libs = $wpdb->get_results( 'SELECT * FROM ' . $wpdb->prefix . 'wpbooklist_jre_list_dynamic_db_names' );
+
+			// Get user options.
+			$this->user_options = $wpdb->get_row( 'SELECT * FROM ' . $wpdb->prefix . 'wpbooklist_jre_user_options' );
+
+		}
+
 		/** Functions that loads up the menu page entry for this Extension.
 		 *
 		 *  @param array $submenu_array - The array that contains submenu entries to add to.
@@ -229,6 +244,244 @@ if ( ! class_exists( 'CustomFields_General_Functions', false ) ) :
 			dbDelta( $sql_create_table1 );
 			*/
 		}
+
+		/** Checks for any 'Plain Text' custom fields, and if found, outputs the HTML into the 'Plain Text' Fields area of the 'Book Form'.
+		 *
+		 *  @param string $string_book_form - The string that contains the existing form HTML.
+		 */
+		public function wpbooklist_customfields_insert_basic_fields( $string_book_form ) {
+
+			// If there are fields saved...
+			$final_html = '';
+			if ( null !== $this->user_options->customfields || '' !== $this->user_options->customfields ) {
+
+				// If there are Plain-Text entries saved...
+				if ( false !== stripos( $this->user_options->customfields, 'Plain Text Entry' ) ) {
+					$fields_array = explode( '--', $this->user_options->customfields );
+					foreach ( $fields_array as $key => $value ) {
+
+						// If the custom field is a 'Plain Text Entry' field...
+						if ( false !== stripos( $value, 'Plain Text Entry' ) ) {
+							$indiv_fields_array = explode( ';', $value );
+
+							// If the Field name isn't blank or null...
+							if ( '' !== $indiv_fields_array[0] && null !== $indiv_fields_array[0] ) {
+
+								$for_label = str_replace( '_', ' ', $indiv_fields_array[0] );
+
+								// Add row to final HTML.
+								$final_html = $final_html . '<div class="wpbooklist-book-form-indiv-attribute-container wpbooklist-book-form-indiv-attribute-container-customfields">
+									<img class="wpbooklist-icon-image-question-with-link" data-label="book-form-customfield-plaintext" src="' . ROOT_IMG_ICONS_URL . 'question-black.svg">
+									<label class="wpbooklist-question-icon-label" for="book-customfield-' . $indiv_fields_array[0] . '">' . $for_label . '</label>
+									<input type="text" data-customfield-type="plaintextentry" class="wpbooklist-addbook-customfield-plain-text-entry" name="book-customfield-' . $indiv_fields_array[0] . '">
+								</div>';
+							}
+						}
+					}
+				}
+			}
+
+			return $string_book_form . $final_html;
+		}
+
+		/** Checks for any 'Text Link' custom fields, and if found, outputs the HTML into the 'Text Link' Fields area of the 'Book Form'.
+		 *
+		 *  @param string $string_book_form - The string that contains the existing form HTML.
+		 */
+		public function wpbooklist_customfields_insert_textlink_fields( $string_book_form ) {
+
+			// Get Translations.
+			require_once CLASS_TRANSLATIONS_DIR . 'class-wpbooklist-translations.php';
+			$this->trans = new WPBookList_Translations();
+			$this->trans->trans_strings();
+
+			// If there are fields saved...
+			$final_html = '';
+			if ( null !== $this->user_options->customfields || '' !== $this->user_options->customfields ) {
+
+				// If there are Plain-Text entries saved...
+				if ( false !== stripos( $this->user_options->customfields, 'Text Link' ) ) {
+					$fields_array = explode( '--', $this->user_options->customfields );
+					foreach ( $fields_array as $key => $value ) {
+
+						// If the custom field is a 'Plain Text Entry' field...
+						if ( false !== stripos( $value, 'Text Link' ) ) {
+							$indiv_fields_array = explode( ';', $value );
+
+							// If the Field name isn't blank or null...
+							if ( '' !== $indiv_fields_array[0] && null !== $indiv_fields_array[0] ) {
+
+								$for_label = str_replace( '_', ' ', $indiv_fields_array[0] );
+
+								// Add row to final HTML.
+								$final_html = $final_html . '<div class="wpbooklist-book-form-indiv-attribute-container wpbooklist-book-form-indiv-attribute-container-customfields">
+									<img class="wpbooklist-icon-image-question-with-link" data-label="book-form-customfield-textlink" src="' . ROOT_IMG_ICONS_URL . 'question-black.svg">
+									<label class="wpbooklist-question-icon-label" for="book-customfield-' . $indiv_fields_array[0] . '">' . $for_label . '</label>
+									<input type="text" data-customfield-type="textlink" class="wpbooklist-addbook-customfield-textlink-text-input" name="book-customfield-textlink-text-' . $indiv_fields_array[0] . '" placeholder="' . $this->trans->trans_227 . '">
+									<input type="text" data-customfield-type="textlink" class="wpbooklist-addbook-customfield-textlink-url-input" name="book-customfield-textlink-link-' . $indiv_fields_array[0] . '" placeholder="' . $this->trans->trans_228 . '">
+								</div>';
+							}
+						}
+					}
+				}
+			}
+
+			return $string_book_form . $final_html;
+		}
+
+
+		/** Checks for any 'Image Link' custom fields, and if found, outputs the HTML into the 'Image Link' Fields area of the 'Book Form'.
+		 *
+		 *  @param string $string_book_form - The string that contains the existing form HTML.
+		 */
+		public function wpbooklist_customfields_insert_imagelink_fields( $string_book_form ) {
+
+			// Get Translations.
+			require_once CLASS_TRANSLATIONS_DIR . 'class-wpbooklist-translations.php';
+			$this->trans = new WPBookList_Translations();
+			$this->trans->trans_strings();
+
+			// If there are fields saved...
+			$final_html = '';
+			if ( null !== $this->user_options->customfields || '' !== $this->user_options->customfields ) {
+
+				// If there are Plain-Text entries saved...
+				if ( false !== stripos( $this->user_options->customfields, 'Image Link' ) ) {
+					$fields_array = explode( '--', $this->user_options->customfields );
+					foreach ( $fields_array as $key => $value ) {
+
+						// If the custom field is a 'Plain Text Entry' field...
+						if ( false !== stripos( $value, 'Image Link' ) ) {
+							$indiv_fields_array = explode( ';', $value );
+
+							// If the Field name isn't blank or null...
+							if ( '' !== $indiv_fields_array[0] && null !== $indiv_fields_array[0] ) {
+
+								$for_ids = str_replace( ' ', '_', $indiv_fields_array[0] );
+								$for_label = str_replace( '_', ' ', $indiv_fields_array[0] );
+
+								// Add row to final HTML.
+								$final_html = $final_html . '<div class="wpbooklist-book-form-indiv-attribute-container" style="margin-top:25px;">
+									<div class="wpbooklist-book-form-indiv-attribute-image-controls-container">
+										<img class="wpbooklist-icon-image-question" data-label="book-form-customfield-imagelink" src="' . ROOT_IMG_ICONS_URL . 'question-black.svg">
+										<label class="wpbooklist-question-icon-label" for="book-customfield-' . $for_ids . '">' . $for_label . '</label>
+										<input class="wpbooklist-addbook-upload_image_button" data-previewid="wpbooklist-addbook-preview-img-' . $for_ids . '" data-urlinputid="wpbooklist-addbook-' . $for_ids . '" type="button" value="' . $this->trans->trans_169 . '"/>
+										<img class="wpbooklist-addbook-preview-img" id="wpbooklist-addbook-preview-img-' . $for_ids . '"  src="' . ROOT_IMG_ICONS_URL . 'book-placeholder.svg" />
+									</div>
+									<div class="wpbooklist-book-form-indiv-attribute-image-input-container">
+										<input type="text" placeholder="' . $this->trans->trans_172 . '" class="wpbooklist-addbook-image-url-input" id="wpbooklist-addbook-' . $for_ids . '" data-previewid="wpbooklist-addbook-preview-img-' . $for_ids . '" name="book-customfield-imagelink-image-' . $for_ids . '">
+										<input type="text" placeholder="' . $this->trans->trans_228 . '" class="wpbooklist-addbook-image-url-input" id="wpbooklist-addbook-' . $for_ids . '" data-previewid="wpbooklist-addbook-preview-img-' . $for_ids . '" name="book-customfield-imagelink-text-' . $for_ids . '">
+									</div>
+								</div>';
+							}
+						}
+					}
+				}
+			}
+
+			return $string_book_form . $final_html;
+		}
+
+		/** Checks for any 'Dropdown' custom fields, and if found, outputs the HTML into the 'Dropdown' Fields area of the 'Book Form'.
+		 *
+		 *  @param string $string_book_form - The string that contains the existing form HTML.
+		 */
+		public function wpbooklist_customfields_insert_dropdown_fields( $string_book_form ) {
+
+			// Get Translations.
+			require_once CLASS_TRANSLATIONS_DIR . 'class-wpbooklist-translations.php';
+			$this->trans = new WPBookList_Translations();
+			$this->trans->trans_strings();
+
+			// If there are fields saved...
+			$final_html = '';
+			if ( null !== $this->user_options->customfields || '' !== $this->user_options->customfields ) {
+
+				// If there are Plain-Text entries saved...
+				if ( false !== stripos( $this->user_options->customfields, 'Drop-Down' ) ) {
+					$fields_array = explode( '--', $this->user_options->customfields );
+					foreach ( $fields_array as $key => $value ) {
+
+						// If the custom field is a 'Plain Text Entry' field...
+						if ( false !== stripos( $value, 'Drop-Down' ) ) {
+							$indiv_fields_array = explode( ';', $value );
+
+							// If the Field name isn't blank or null...
+							if ( '' !== $indiv_fields_array[0] && null !== $indiv_fields_array[0] ) {
+
+								$for_ids = str_replace( ' ', '_', $indiv_fields_array[0] );
+								$for_label = str_replace( '_', ' ', $indiv_fields_array[0] );
+
+								// Build Option string.
+								$option_string = '<option selected disabled default>' . $this->trans->trans_229 . '</option>';
+								foreach ( $indiv_fields_array as $key => $option) {
+									if ( 0 !== $key && 1 !== $key ) {
+										$option_string = $option_string . '<option>' . $option . '</option>';
+									}
+								}
+
+								// Add row to final HTML.
+								$final_html = $final_html . '<div class="wpbooklist-book-form-indiv-attribute-container">
+									<img class="wpbooklist-icon-image-question" data-label="book-form-customfield-dropdown" src="' . ROOT_IMG_ICONS_URL . 'question-black.svg">
+									<label class="wpbooklist-question-icon-label" for="book-genre">' . $for_label . '</label>
+									<select class="wpbooklist-addbook-select-default" id="wpbooklist-customfield-dropdown-' . $indiv_fields_array[0] . '" >
+										' . $option_string . '
+									</select>
+								</div>';
+							}
+						}
+					}
+				}
+			}
+
+			return $string_book_form . $final_html;
+		}
+//
+		/** Checks for any 'Dropdown' custom fields, and if found, outputs the HTML into the 'Dropdown' Fields area of the 'Book Form'.
+		 *
+		 *  @param string $string_book_form - The string that contains the existing form HTML.
+		 */
+		public function wpbooklist_customfields_insert_paragraph_fields( $string_book_form ) {
+
+			// Get Translations.
+			require_once CLASS_TRANSLATIONS_DIR . 'class-wpbooklist-translations.php';
+			$this->trans = new WPBookList_Translations();
+			$this->trans->trans_strings();
+
+			// If there are fields saved...
+			$final_html = '';
+			if ( null !== $this->user_options->customfields || '' !== $this->user_options->customfields ) {
+
+				// If there are Plain-Text entries saved...
+				if ( false !== stripos( $this->user_options->customfields, 'Paragraph' ) ) {
+					$fields_array = explode( '--', $this->user_options->customfields );
+					foreach ( $fields_array as $key => $value ) {
+
+						// If the custom field is a 'Plain Text Entry' field...
+						if ( false !== stripos( $value, 'Paragraph' ) ) {
+							$indiv_fields_array = explode( ';', $value );
+
+							// If the Field name isn't blank or null...
+							if ( '' !== $indiv_fields_array[0] && null !== $indiv_fields_array[0] ) {
+
+								$for_ids = str_replace( ' ', '_', $indiv_fields_array[0] );
+								$for_label = str_replace( '_', ' ', $indiv_fields_array[0] );
+
+								// Add row to final HTML.
+								$final_html = $final_html . '<div class="wpbooklist-book-form-indiv-attribute-container">
+									<img class="wpbooklist-icon-image-question" data-label="book-form-customfield-paragraph" src="' . ROOT_IMG_ICONS_URL . 'question-black.svg">
+									<label class="wpbooklist-question-icon-label" for="book-notes">' . $for_label . '</label>
+									<textarea id="wpbooklist-customfield-textarea-' . $indiv_fields_array[0] . '" name="book-notes"></textarea>
+								</div>';
+							}
+						}
+					}
+				}
+			}
+
+			return $string_book_form . $final_html;
+		}
+
 
 	}
 endif;

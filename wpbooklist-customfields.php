@@ -148,6 +148,16 @@ global $wpdb;
 	// Runs once upon extension activation and adds it's version number to the 'extensionversions' column in the 'wpbooklist_jre_user_options' table of the core plugin.
 	register_activation_hook( __FILE__, array( $customfields_general_functions, 'wpbooklist_customfields_record_extension_version' ) );
 
+	add_filter( 'wpbooklist_append_to_book_form_basic_fields', array( $customfields_general_functions, 'wpbooklist_customfields_insert_basic_fields' ) );
+
+	add_filter( 'wpbooklist_append_to_book_form_basic_fields', array( $customfields_general_functions, 'wpbooklist_customfields_insert_textlink_fields' ) );
+
+	add_filter( 'wpbooklist_append_to_book_form_dropdown_fields', array( $customfields_general_functions, 'wpbooklist_customfields_insert_dropdown_fields' ) );
+
+	add_filter( 'wpbooklist_append_to_book_form_image_fields', array( $customfields_general_functions, 'wpbooklist_customfields_insert_imagelink_fields' ) );
+
+	add_filter( 'wpbooklist_append_to_book_form_paragraph_fields', array( $customfields_general_functions, 'wpbooklist_customfields_insert_paragraph_fields' ) );
+
 
 /* END OF FUNCTIONS FOUND IN CLASS-WPBOOKLIST-GENERAL-FUNCTIONS.PHP THAT APPLY PLUGIN-WIDE */
 

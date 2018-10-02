@@ -35,7 +35,6 @@ if ( ! class_exists( 'CustomFields_Ajax_Functions', false ) ) :
 
 		}
 
-
 		/**
 		 * Callback function for saving custom fields.
 		 */
@@ -49,6 +48,11 @@ if ( ! class_exists( 'CustomFields_Ajax_Functions', false ) ) :
 				// If the name contains any spaces, replace with underscores.
 				if ( false !== stripos( $name, ' ' ) ) {
 					$name = str_replace( ' ', '_', $name );
+				}
+
+				// If the name contains any dashes, replace with underscores.
+				if ( false !== stripos( $name, '-' ) ) {
+					$name = str_replace( '-', '_', $name );
 				}
 			}
 
