@@ -89,6 +89,8 @@ global $wpdb;
 	define( 'CUSTOMFIELDS_NONCES_ARRAY',
 		wp_json_encode(array(
 			'adminnonce1' => 'wpbooklist_customfields_save_custom_field_action_callback',
+			'adminnonce2' => 'wpbooklist_custom_fields_delete_entry_action_callback',
+			'adminnonce3' => 'wpbooklist_custom_fields_edit_entry_action_callback',
 		))
 	);
 
@@ -168,6 +170,12 @@ global $wpdb;
 
 	// For creating new custom fields.
 	add_action( 'wp_ajax_wpbooklist_customfields_save_custom_field_action', array( $customfields_ajax_functions, 'wpbooklist_customfields_save_custom_field_action_callback' ) );
+
+	// For deleting custom fields.
+	add_action( 'wp_ajax_wpbooklist_custom_fields_delete_entry_action', array( $customfields_ajax_functions, 'wpbooklist_custom_fields_delete_entry_action_callback' ) );
+
+	// For editing custom fields.
+	add_action( 'wp_ajax_wpbooklist_custom_fields_edit_entry_action', array( $customfields_ajax_functions, 'wpbooklist_custom_fields_edit_entry_action_callback' ) );
 
 /* END OF FUNCTIONS FOUND IN CLASS-WPBOOKLIST-AJAX-FUNCTIONS.PHP THAT APPLY PLUGIN-WIDE */
 

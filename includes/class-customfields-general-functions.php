@@ -397,6 +397,8 @@ if ( ! class_exists( 'CustomFields_General_Functions', false ) ) :
 			$final_html = '';
 			if ( null !== $this->user_options->customfields || '' !== $this->user_options->customfields ) {
 
+				//--dynatest;Text Link;No;Yes;NA--dynatest2;Image Link;No;Yes;NA--droptest1;Drop-Down;No;Yes;option #1/Second Option/Additional Options
+
 				// If there are Plain-Text entries saved...
 				if ( false !== stripos( $this->user_options->customfields, 'Drop-Down' ) ) {
 					$fields_array = explode( '--', $this->user_options->customfields );
@@ -413,11 +415,10 @@ if ( ! class_exists( 'CustomFields_General_Functions', false ) ) :
 								$for_label = str_replace( '_', ' ', $indiv_fields_array[0] );
 
 								// Build Option string.
+								$indiv_fields_array = explode( '/', $indiv_fields_array[4] );
 								$option_string = '<option selected disabled default>' . $this->trans->trans_229 . '</option>';
 								foreach ( $indiv_fields_array as $key => $option) {
-									if ( 0 !== $key && 1 !== $key ) {
-										$option_string = $option_string . '<option>' . $option . '</option>';
-									}
+									$option_string = $option_string . '<option>' . $option . '</option>';
 								}
 
 								// Add row to final HTML.

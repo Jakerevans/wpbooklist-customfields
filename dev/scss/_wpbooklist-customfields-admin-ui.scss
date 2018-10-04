@@ -7,8 +7,37 @@
  * @version  6.0.0
  */
 
- .wpbooklist-customfields-create-input-div{
+.wpbooklist-customfields-edit-indiv-container-div{
+    margin-bottom: 20px;
+    border: 1px solid #e5e5e5;
+    padding: 10px;
+    display: block;
+    position: relative;
+    min-height: 50px;
+    width: 97%;
+}
+
+ .wpbooklist-customfields-create-input-div, .wpbooklist-customfields-edit-input-div{
  	display: inline-block;
+    vertical-align: top;
+ }
+
+ .wpbooklist-customfields-edit-input-div{
+    margin-left:5px;
+    margin-right:5px;
+ }
+
+  .wpbooklist-customfields-edit-input-dropdown-div{
+    margin-top: 20px;
+    width:90%;
+ }
+
+.wpbooklist-customfields-edit-input-div input{
+    max-width:150px;
+}
+
+ .wpbooklist-customfields-edit-input-div input, .wpbooklist-customfields-edit-input-div select, .wpbooklist-customfields-edit-input-div img{
+    margin-top: 5px;
  }
 
  .wpbooklist-customfields-create-input-div-dynamic{
@@ -50,6 +79,13 @@
     cursor: pointer;
 }
 
+.wpbooklist-addition-div-customfields-add-img-edit{
+    position: absolute;
+    right: 15px;
+    bottom: 20px;
+    cursor: pointer;
+}
+
 .wpbooklist-addition-div-customfields-cancel{
 	right: 0px;
     position: absolute;
@@ -57,10 +93,35 @@
     cursor: pointer;
 }
 
- .wpbooklist-addition-div-img-cancel{
+.wpbooklist-addition-div-customfields-delete{
+    position: relative;
+    top: 5px;
+    cursor: pointer;
+}
+
+ .wpbooklist-addition-div-img-cancel, .wpbooklist-addition-div-img-delete{
  	width:10px;
  }
 
 .wpbooklist-book-form-indiv-attribute-container-customfields .wpbooklist-icon-image-question-with-link{
     right:10px;
+}
+
+.wpbooklist-customfields-edit-indiv-container-div{
+    margin-bottom:20px;
+}
+
+.wpbooklist-customfields-edit-options{
+    position: relative;
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.wpbooklist-addition-div-p-edit-options{
+    margin: 0px;
+    font-size: 10px;
+    position: relative;
+    top: 50px;
+    line-height: 0.9;
 }
