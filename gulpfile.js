@@ -74,45 +74,37 @@ gulp.task( 'concatFrontendJs', function() {
 });
 
 gulp.task( 'copyassets', function () {
-	gulp.src([ './assets/**/*' ], {base: './'}).pipe(gulp.dest( '../wpbooklist_dist/WPBookList-Distribution' ) );
+	gulp.src([ './assets/**/*' ], {base: './'}).pipe(gulp.dest( '../wpbooklist-customfields_dist/WPBookList-CustomFields-Distribution' ) );
 });
 
 gulp.task( 'copyincludes', function () {
-	gulp.src([ './includes/**/*' ], {base: './'}).pipe(gulp.dest( '../wpbooklist_dist/WPBookList-Distribution' ) );
-});
-
-gulp.task( 'copyquotes', function () {
-	gulp.src([ './quotes/**/*' ], {base: './'}).pipe(gulp.dest( '../wpbooklist_dist/WPBookList-Distribution' ) );
-});
-
-gulp.task( 'copyconfig', function () {
-	gulp.src([ './wpbooklistconfig.ini' ], {base: './'}).pipe(gulp.dest( '../wpbooklist_dist/WPBookList-Distribution' ) );
+	gulp.src([ './includes/**/*' ], {base: './'}).pipe(gulp.dest( '../wpbooklist-customfields_dist/WPBookList-CustomFields-Distribution' ) );
 });
 
 gulp.task( 'copyreadme', function () {
-	gulp.src([ './readme.txt' ], {base: './'}).pipe(gulp.dest( '../wpbooklist_dist/WPBookList-Distribution' ) );
+	gulp.src([ './readme.txt' ], {base: './'}).pipe(gulp.dest( '../wpbooklist-customfields_dist/WPBookList-CustomFields-Distribution' ) );
 });
 
 gulp.task( 'copylang', function () {
-	gulp.src([ './languages/**/*' ], {base: './'}).pipe(gulp.dest( '../wpbooklist_dist/WPBookList-Distribution' ) );
+	gulp.src([ './languages/**/*' ], {base: './'}).pipe(gulp.dest( '../wpbooklist-customfields_dist/WPBookList-CustomFields-Distribution' ) );
 });
 
 gulp.task( 'copymainfile', function () {
-	gulp.src([ './wpbooklist.php' ], {base: './'}).pipe(gulp.dest( '../wpbooklist_dist/WPBookList-Distribution' ) );
+	gulp.src([ './wpbooklist-customfields.php' ], {base: './'}).pipe(gulp.dest( '../wpbooklist-customfields_dist/WPBookList-CustomFields-Distribution' ) );
 });
 
 gulp.task( 'zip', function () {
-	return gulp.src( '../wpbooklist_dist/WPBookList-Distribution/**' )
-		.pipe(zip( 'wpbooklist.zip' ) )
-		.pipe(gulp.dest( '../wpbooklist_dist/WPBookList-Distribution' ) );
+	return gulp.src( '../wpbooklist-customfields_dist/WPBookList-CustomFields-Distribution/**' )
+		.pipe(zip( 'wpbooklist-customfields.zip' ) )
+		.pipe(gulp.dest( '../wpbooklist-customfields_dist/WPBookList-CustomFields-Distribution' ) );
 });
 
 gulp.task( 'cleanzip', function(cb) {
-	del([ '../wpbooklist_dist/WPBookList-Distribution/**/*' ], {force: true}, cb);
+	del([ '../wpbooklist-customfields_dist/WPBookList-CustomFields-Distribution/**/*' ], {force: true}, cb);
 });
 
 gulp.task( 'clean', function(cb) {
-	del([ '../wpbooklist_dist/WPBookList-Distribution/**/*', '!../wpbooklist_dist/WPBookList-Distribution/wpbooklist.zip' ], {force: true}, cb);
+	del([ '../wpbooklist-customfields_dist/WPBookList-CustomFields-Distribution/**/*', '!../wpbooklist-customfields_dist/WPBookList-CustomFields-Distribution/wpbooklist-customfields.zip' ], {force: true}, cb);
 });
 
 // Task to watch for changes in our file sources
@@ -128,7 +120,7 @@ gulp.task( 'default', [ 'sassFrontendSource', 'sassBackendSource', 'concatAdminJ
 
 //gulp.task( 'default', [ 'cleanzip' ]);
 
-//gulp.task( 'default', [ 'copyassets', 'copyincludes', 'copyquotes', 'copyconfig', 'copyreadme', 'copylang', 'copymainfile' ]);
+//gulp.task( 'default', [ 'copyassets', 'copyincludes', 'copyreadme', 'copylang', 'copymainfile' ]);
 
 //gulp.task( 'default', [ 'zip' ]);
 
