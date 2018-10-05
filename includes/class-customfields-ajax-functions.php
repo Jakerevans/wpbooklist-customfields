@@ -108,11 +108,11 @@ if ( ! class_exists( 'CustomFields_Ajax_Functions', false ) ) :
 				// Add proposed custom field to the db of the default table first.
 				$default_book_log = $wpdb->prefix . 'wpbooklist_jre_saved_book_log';
 
-				// If it's a Paragraph type, create column as MEDIUMTEXT, otherwise, as varchar(255).
+				// If it's a Paragraph type, create column as MEDIUMTEXT, otherwise, as TEXT.
 				if ( $this->trans->trans_12 === $type ) {
 					$default_column_create_result = $wpdb->query( "ALTER TABLE $default_book_log ADD " . $name . ' MEDIUMTEXT' );
 				} else {
-					$default_column_create_result = $wpdb->query( "ALTER TABLE $default_book_log ADD " . $name . ' varchar(255)' );
+					$default_column_create_result = $wpdb->query( "ALTER TABLE $default_book_log ADD " . $name . ' TEXT' );
 				}
 
 				// If we've encountered an error adding to the default table, end execution right here.
@@ -123,7 +123,7 @@ if ( ! class_exists( 'CustomFields_Ajax_Functions', false ) ) :
 				// Adding custom field to all dynamic libraries.
 				foreach ( $this->dynamic_libs as $db ) {
 
-					// If it's a Paragraph type, create column as MEDIUMTEXT, otherwise, as varchar(255).
+					// If it's a Paragraph type, create column as MEDIUMTEXT, otherwise, as TEXT.
 					$wpdb->prefix . 'wpbooklist_jre_' . $db->user_table_name;
 					if ( $this->trans->trans_12 === $type ) {
 						$result = $wpdb->query( 'ALTER TABLE ' . $wpdb->prefix . 'wpbooklist_jre_' . $db->user_table_name . ' ADD ' . $name . ' MEDIUMTEXT' );
@@ -135,7 +135,7 @@ if ( ! class_exists( 'CustomFields_Ajax_Functions', false ) ) :
 
 						$default_column_create_result = $default_column_create_result . '--sep--' . $result . '--sep--' . $wpdb->prefix . 'wpbooklist_jre_' . $db->user_table_name;
 					} else {
-						$result = $wpdb->query( 'ALTER TABLE ' . $wpdb->prefix . 'wpbooklist_jre_' . $db->user_table_name . ' ADD . ' . $name . ' varchar(255)' );
+						$result = $wpdb->query( 'ALTER TABLE ' . $wpdb->prefix . 'wpbooklist_jre_' . $db->user_table_name . ' ADD . ' . $name . ' TEXT' );
 
 						// If we've encountered an error adding to this Dynamic table, end execution right here.
 						if ( true !== $result ) {
@@ -192,7 +192,7 @@ if ( ! class_exists( 'CustomFields_Ajax_Functions', false ) ) :
 		}
 
 		/**
-		 * Callback function for deleting custom fields.
+		 * Callback function for editing custom fields.
 		 */
 		public function wpbooklist_custom_fields_edit_entry_action_callback() {
 

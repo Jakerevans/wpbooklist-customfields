@@ -165,12 +165,6 @@ if ( ! class_exists( 'Edit_CustomFields_Form', false ) ) :
 							$options = explode( '/', $exploded_fields[4] );
 							foreach ( $options as $optionkey => $optionvalue ) {
 
-								if ( 0 === $optionkey ) {
-									$addimg = '<div class="wpbooklist-addition-div-customfields-add-img-edit"><p class="wpbooklist-addition-div-p-edit-options">' .$this->trans->trans_15 . '<br/>' . $this->trans->trans_16 . '</p><img class="wpbooklist-addition-div-img" src="' . ROOT_IMG_ICONS_URL . 'addrow.svg"></div>';
-								} else {
-									$addimg = '';
-								}
-
 								$optionstring = $optionstring .
 								'<div class="wpbooklist-customfields-edit-input-div wpbooklist-customfields-edit-input-dropdown-div">
 									<img class="wpbooklist-icon-image-question" data-label="customfields-form-hidelibraryview" src="' . ROOT_IMG_ICONS_URL . 'question-black.svg">
@@ -178,7 +172,6 @@ if ( ! class_exists( 'Edit_CustomFields_Form', false ) ) :
 									<div>
 										<div class="wpbooklist-customfields-edit-options" style="position:relative;">
 											<input class="wpbooklist-customfield-input wpbooklist-customfield-dropdown-input" type="text" placeholder="' . $this->trans->trans_10 . '" value="' . $optionvalue . '" />
-											' . $addimg . '
 											<input readonly class="wpbooklist-customfield-input" id="wpbooklist-customfield-input-fieldtype" type="hidden" value="' . $exploded_fields[1] . '" />
 										</div>
 									</div>
