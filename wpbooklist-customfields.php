@@ -120,6 +120,9 @@ global $wpdb;
 	// Function that loads up the menu page entry for this Extension.
 	add_filter( 'wpbooklist_add_sub_menu', array( $customfields_general_functions, 'wpbooklist_customfields_submenu' ) );
 
+	// Function that adds in options to hideany created Custom Fields on the 'Book View Display Options' tab.
+	add_filter( 'wpbooklist_append_to_book_view_display_options', array( $customfields_general_functions, 'wpbooklist_customfields_insert_book_view_display_options' ) );
+
 	// Adding the function that will take our CUSTOMFIELDS_NONCES_ARRAY Constant from above and create actual nonces to be passed to Javascript functions.
 	add_action( 'init', array( $customfields_general_functions, 'wpbooklist_customfields_create_nonces' ) );
 

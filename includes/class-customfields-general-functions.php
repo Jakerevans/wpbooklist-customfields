@@ -437,7 +437,7 @@ if ( ! class_exists( 'CustomFields_General_Functions', false ) ) :
 
 			return $string_book_form . $final_html;
 		}
-//
+
 		/** Checks for any 'Dropdown' custom fields, and if found, outputs the HTML into the 'Dropdown' Fields area of the 'Book Form'.
 		 *
 		 *  @param string $string_book_form - The string that contains the existing form HTML.
@@ -481,6 +481,51 @@ if ( ! class_exists( 'CustomFields_General_Functions', false ) ) :
 			}
 
 			return $string_book_form . $final_html;
+		}
+
+		/** Outputs options to the 'Book View Display Options' form to hide any existing Custom Fields.
+		 *
+		 *  @param string $string_book_view_display_options - The string that contains the existing form HTML.
+		 */
+		public function wpbooklist_customfields_insert_book_view_display_options( $string_book_view_display_options ) {
+
+			// Get Translations.
+			require_once CLASS_TRANSLATIONS_DIR . 'class-wpbooklist-translations.php';
+			$this->trans = new WPBookList_Translations();
+			$this->trans->trans_strings();
+
+			// If there are fields saved...
+			$final_html = '';
+			if ( null !== $this->user_options->customfields || '' !== $this->user_options->customfields ) {
+
+				// If there are entries saved...
+				$fields_array = explode( '--', $this->user_options->customfields );
+				foreach ( $fields_array as $key => $value ) {
+
+
+					$indiv_fields_array = explode( ';', $value );
+
+					// If the Field name isn't blank or null...
+					if ( '' !== $indiv_fields_array[0] && null !== $indiv_fields_array[0] ) {
+
+						$for_label = str_replace( '_', ' ', $indiv_fields_array[0] );
+
+						// Add row to final HTML.
+						$final_html = $final_html . '
+						<div class="wpbooklist-display-options-indiv-entry">
+							<div class="wpbooklist-display-options-label-div">
+								<img class="wpbooklist-icon-image-question-display-options wpbooklist-icon-image-question" data-label="library-display-form-customfield" src="http://localhost:8888/local/wp-content/plugins/wpbooklist/assets/img/icons/question-black.svg">
+								<label>' . $for_label . '</label>
+							</div>
+							<div class="wpbooklist-margin-right-td">
+								<input type="checkbox" name="hide-library-display-form-customfield"></input>
+							</div>
+						</div>';
+					}
+				}
+			}
+
+			return $string_book_view_display_options . $final_html;
 		}
 
 

@@ -42,6 +42,7 @@ if ( ! class_exists( 'CustomFields_Ajax_Functions', false ) ) :
 			global $wpdb;
 			check_ajax_referer( 'wpbooklist_customfields_save_custom_field_action_callback', 'security' );
 
+			$name = '';
 			if ( isset( $_POST['name'] ) ) {
 				$name = filter_var( wp_unslash( $_POST['name'] ), FILTER_SANITIZE_STRING );
 
@@ -120,7 +121,7 @@ if ( ! class_exists( 'CustomFields_Ajax_Functions', false ) ) :
 					wp_die( '0--sep--' . $wpdb->last_error . '--sep--Error-After-Default-Table-Attempt' );
 				}
 
-				// Adding custom field to all dynamic libraries.
+				// Adding custom field to all dynamic libraries - both the book tables and the settings tables.
 				foreach ( $this->dynamic_libs as $db ) {
 
 					// If it's a Paragraph type, create column as MEDIUMTEXT, otherwise, as TEXT.
@@ -144,7 +145,15 @@ if ( ! class_exists( 'CustomFields_Ajax_Functions', false ) ) :
 
 						$default_column_create_result = $default_column_create_result . '--sep--' . $result . '--sep--' . $wpdb->prefix . 'wpbooklist_jre_' . $db->user_table_name;
 					}
+
+					// Now add to the settings tables.
+					$display_options_dynamic_create_result = $wpdb->query( 'ALTER TABLE ' . $wpdb->prefix . 'wpbooklist_jre_settings_' . $db->user_table_name . ' ADD hide' . $name . ' bigint(255)' );
+
 				}
+
+				// Now we need to add columns to the Display Options table.
+				$display_options_table         = $wpdb->prefix . 'wpbooklist_jre_user_options';
+				$display_options_create_result = $wpdb->query( "ALTER TABLE $display_options_table ADD hide" . $name . ' bigint(255)' );
 
 				// If we made it this far, assume no errors, and return a string containing the names of all the tables this Custom Field was added to.
 				wp_die( $default_column_create_result );
@@ -180,12 +189,17 @@ if ( ! class_exists( 'CustomFields_Ajax_Functions', false ) ) :
 			$where_format = array( '%d' );
 			$result = $wpdb->update( $wpdb->prefix . 'wpbooklist_jre_user_options', $data, $where, $format, $where_format );
 
-			// Drop the columns in default table.
+			// Drop the columns in default saved book log table.
 			$default_column_delete_result = $wpdb->query( 'ALTER TABLE ' . $wpdb->prefix . 'wpbooklist_jre_saved_book_log DROP COLUMN ' . $name );
 
-			// Now drop from all Dynamic tables.
+			// Now drop from the default Display Options table.
+			$display_options_create_result = $wpdb->query( 'ALTER TABLE ' . $wpdb->prefix . 'wpbooklist_jre_user_options DROP COLUMN hide' . $name );
+
+			// Now drop from all Dynamic tables - both the Dynamic tables holding the books, and the Dynamic Settings tables.
 			foreach ( $this->dynamic_libs as $db ) {
 				$dynamic_column_delete_result = $wpdb->query( 'ALTER TABLE ' . $wpdb->prefix . 'wpbooklist_jre_' . $db->user_table_name . ' DROP COLUMN ' . $name );
+
+				$dynamic_settings_column_delete_result = $wpdb->query( 'ALTER TABLE ' . $wpdb->prefix . 'wpbooklist_jre_settings_' . $db->user_table_name . ' DROP COLUMN hide' . $name );
 			}
 
 			wp_die( $result );
