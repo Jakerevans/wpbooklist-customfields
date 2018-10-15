@@ -514,11 +514,11 @@ if ( ! class_exists( 'CustomFields_General_Functions', false ) ) :
 						$final_html = $final_html . '
 						<div class="wpbooklist-display-options-indiv-entry">
 							<div class="wpbooklist-display-options-label-div">
-								<img class="wpbooklist-icon-image-question-display-options wpbooklist-icon-image-question" data-label="library-display-form-customfield" src="http://localhost:8888/local/wp-content/plugins/wpbooklist/assets/img/icons/question-black.svg">
+								<img class="wpbooklist-icon-image-question-display-options wpbooklist-icon-image-question" data-label="library-display-form-customfield" src="' . ROOT_IMG_ICONS_URL . 'question-black.svg">
 								<label>' . $for_label . '</label>
 							</div>
 							<div class="wpbooklist-margin-right-td">
-								<input type="checkbox" name="hide-library-display-form-customfield"></input>
+								<input type="checkbox" name="hide-library-display-form-customfield-' . $indiv_fields_array[0] . '"></input>
 							</div>
 						</div>';
 					}
