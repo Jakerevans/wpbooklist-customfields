@@ -121,7 +121,7 @@ global $wpdb;
 	add_filter( 'wpbooklist_add_sub_menu', array( $customfields_general_functions, 'wpbooklist_customfields_submenu' ) );
 
 	// Function that adds in options to hideany created Custom Fields on the 'Book View Display Options' tab.
-	add_filter( 'wpbooklist_append_to_book_view_display_options', array( $customfields_general_functions, 'wpbooklist_customfields_insert_book_view_display_options' ) );
+	//add_filter( 'wpbooklist_append_to_book_view_display_options', array( $customfields_general_functions, 'wpbooklist_customfields_insert_book_view_display_options' ) );
 
 	// Adding the function that will take our CUSTOMFIELDS_NONCES_ARRAY Constant from above and create actual nonces to be passed to Javascript functions.
 	add_action( 'init', array( $customfields_general_functions, 'wpbooklist_customfields_create_nonces' ) );
@@ -162,6 +162,12 @@ global $wpdb;
 	add_filter( 'wpbooklist_append_to_book_form_image_fields', array( $customfields_general_functions, 'wpbooklist_customfields_insert_imagelink_fields' ) );
 
 	add_filter( 'wpbooklist_append_to_book_form_paragraph_fields', array( $customfields_general_functions, 'wpbooklist_customfields_insert_paragraph_fields' ) );
+
+	// Function that adds in basic text fields to Colorbox.
+	add_filter( 'wpbooklist_append_to_book_view_basic_fields', array( $customfields_general_functions, 'wpbooklist_customfields_insert_book_view_basic_fields' ) );
+
+	// Function that adds in text link fields to Colorbox.
+	add_filter( 'wpbooklist_append_to_book_view_text_link_fields', array( $customfields_general_functions, 'wpbooklist_customfields_insert_book_view_text_link_fields' ) );
 
 
 /* END OF FUNCTIONS FOUND IN CLASS-WPBOOKLIST-GENERAL-FUNCTIONS.PHP THAT APPLY PLUGIN-WIDE */
