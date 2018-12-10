@@ -529,6 +529,7 @@ if ( ! class_exists( 'CustomFields_General_Functions', false ) ) :
 
 		}
 
+
 		/** Function that adds in link text fields to Colorbox.
 		 *
 		 *  @param array $book_info - The array that contains needed book info.
@@ -540,18 +541,17 @@ if ( ! class_exists( 'CustomFields_General_Functions', false ) ) :
 			if ( null !== $this->user_options->customfields || '' !== $this->user_options->customfields ) {
 
 				// If there are Plain-Text entries saved...
-				if ( false !== stripos( $this->user_options->customfields, 'Plain Text Entry' ) ) {
+				if ( false !== stripos( $this->user_options->customfields, 'Text Link' ) ) {
 					$fields_array = explode( '--', $this->user_options->customfields );
 					foreach ( $fields_array as $key => $value ) {
 
 						// If the custom field is a 'Plain Text Entry' field...
 						if ( false !== stripos( $value, 'Text Link' ) ) {
 
-							error_log($value);
 							$indiv_fields_array = explode( ';', $value );
 
 							// If the user hasn't hidden this Custom Field from appearing in Colorbox...
-							if ( 'No' === $indiv_fields_array[2] ) {
+							if ( $this->trans->trans_31 === $indiv_fields_array[2] ) {
 
 								// If the Field name isn't blank or null...
 								if ( '' !== $indiv_fields_array[0] && null !== $indiv_fields_array[0] ) {
@@ -559,7 +559,7 @@ if ( ! class_exists( 'CustomFields_General_Functions', false ) ) :
 									// If the actual value for this field isn't blank...
 									if ( '' !== $book_info->{"$indiv_fields_array[0]"} && null !== $book_info->{"$indiv_fields_array[0]"} ) {
 
-										$values_array = explode('---', $book_info->{"$indiv_fields_array[0]"} );
+										$values_array = explode( '---', $book_info->{"$indiv_fields_array[0]"} );
 
 										if ( '' !== $values_array[0] && '' !== $values_array[1] && null !== $values_array[0] && null !== $values_array[1] ) {
 
@@ -579,51 +579,628 @@ if ( ! class_exists( 'CustomFields_General_Functions', false ) ) :
 
 		}
 
-		/** Outputs options to the 'Book View Display Options' form to hide any existing Custom Fields.
+		/** Function that adds in Image Link fields to Colorbox.
 		 *
-		 *  @param string $string_book_view_display_options - The string that contains the existing form HTML.
+		 *  @param array $book_info - The array that contains needed book info.
 		 */
-		public function wpbooklist_customfields_insert_book_view_display_options( $string_book_view_display_options ) {
-
-			// Get Translations.
-			require_once CLASS_TRANSLATIONS_DIR . 'class-wpbooklist-translations.php';
-			$this->trans = new WPBookList_Translations();
-			$this->trans->trans_strings();
+		public function wpbooklist_customfields_insert_book_view_image_link_fields( $book_info ) {
 
 			// If there are fields saved...
 			$final_html = '';
 			if ( null !== $this->user_options->customfields || '' !== $this->user_options->customfields ) {
 
-				// If there are entries saved...
-				$fields_array = explode( '--', $this->user_options->customfields );
-				foreach ( $fields_array as $key => $value ) {
+				// If there are Plain-Text entries saved...
+				if ( false !== stripos( $this->user_options->customfields, 'Image Link' ) ) {
+					$fields_array = explode( '--', $this->user_options->customfields );
+					foreach ( $fields_array as $key => $value ) {
 
+						// If the custom field is a 'Plain Text Entry' field...
+						if ( false !== stripos( $value, 'Image Link' ) ) {
 
-					$indiv_fields_array = explode( ';', $value );
+							$indiv_fields_array = explode( ';', $value );
 
-					// If the Field name isn't blank or null...
-					if ( '' !== $indiv_fields_array[0] && null !== $indiv_fields_array[0] ) {
+							// If the user hasn't hidden this Custom Field from appearing in Colorbox...
+							if ( $this->trans->trans_31 === $indiv_fields_array[2] ) {
 
-						$for_label = str_replace( '_', ' ', $indiv_fields_array[0] );
+								// If the Field name isn't blank or null...
+								if ( '' !== $indiv_fields_array[0] && null !== $indiv_fields_array[0] ) {
 
-						// Add row to final HTML.
-						$final_html = $final_html . '
-						<div class="wpbooklist-display-options-indiv-entry">
-							<div class="wpbooklist-display-options-label-div">
-								<img class="wpbooklist-icon-image-question-display-options wpbooklist-icon-image-question" data-label="library-display-form-customfield" src="' . ROOT_IMG_ICONS_URL . 'question-black.svg">
-								<label>' . $for_label . '</label>
-							</div>
-							<div class="wpbooklist-margin-right-td">
-								<input type="checkbox" name="hide-library-display-form-customfield-' . $indiv_fields_array[0] . '"></input>
-							</div>
-						</div>';
+									// If the actual value for this field isn't blank...
+									if ( '' !== $book_info->{"$indiv_fields_array[0]"} && null !== $book_info->{"$indiv_fields_array[0]"} ) {
+
+										$values_array = explode( '---', $book_info->{"$indiv_fields_array[0]"} );
+
+										if ( '' !== $values_array[0] && '' !== $values_array[1] && null !== $values_array[0] && null !== $values_array[1] ) {
+
+											// Modify the URL if needed.
+											if ( false === stripos( $values_array[1], 'http://' ) && false === stripos( $values_array[1], 'https://' ) ) {
+												$values_array[1] = 'http://' . $values_array[1];
+											}
+
+											// Add row to final HTML.
+											$final_html = $final_html . '<tr><td><a class="wpbooklist-bold-stats-class" id="wpbooklist_bold" href="' . $values_array[1] . '"><img style="width:50px; display: inline-block; margin-left:5px; margin-right:5px;" src="' . $values_array[0] . '"</a></td></tr>';
+
+										}
+									}
+								}
+							}
+						}
 					}
 				}
 			}
 
-			return $string_book_view_display_options . $final_html;
+			return $final_html;
+
 		}
 
+		/** Function that adds in Image Link fields to Colorbox.
+		 *
+		 *  @param array $book_info - The array that contains needed book info.
+		 */
+		public function wpbooklist_customfields_insert_book_view_dropdown_fields( $book_info ) {
 
+			// If there are fields saved...
+			$final_html = '';
+			if ( null !== $this->user_options->customfields || '' !== $this->user_options->customfields ) {
+
+				// If there are Plain-Text entries saved...
+				if ( false !== stripos( $this->user_options->customfields, 'Drop-Down' ) ) {
+					$fields_array = explode( '--', $this->user_options->customfields );
+					foreach ( $fields_array as $key => $value ) {
+
+						// If the custom field is a 'Plain Text Entry' field...
+						if ( false !== stripos( $value, 'Drop-Down' ) ) {
+
+							$indiv_fields_array = explode( ';', $value );
+
+							// If the user hasn't hidden this Custom Field from appearing in Colorbox...
+							if ( $this->trans->trans_31 === $indiv_fields_array[2] ) {
+
+								// If the Field name isn't blank or null...
+								if ( '' !== $indiv_fields_array[0] && null !== $indiv_fields_array[0] ) {
+
+									$for_label = str_replace( '_', ' ', $indiv_fields_array[0] );
+
+									// If the actual value for this field isn't blank...
+									if ( '' !== $book_info->{"$indiv_fields_array[0]"} && null !== $book_info->{"$indiv_fields_array[0]"} ) {
+
+										// Add row to final HTML.
+										$final_html = $final_html . '<tr><td><span class="wpbooklist-bold-stats-class" id="wpbooklist_bold">' . $for_label . ': </span><span class="wpbooklist-bold-stats-value">' . $book_info->{"$indiv_fields_array[0]"} . '</span></td></tr>';
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			return $final_html;
+
+		}
+
+		/** Function that adds in Paragraph fields to Colorbox.
+		 *
+		 *  @param array $book_info - The array that contains needed book info.
+		 */
+		public function wpbooklist_customfields_insert_book_view_paragraph_fields( $book_info ) {
+
+			// If there are fields saved...
+			$final_html = '';
+			if ( null !== $this->user_options->customfields || '' !== $this->user_options->customfields ) {
+
+				// If there are Plain-Text entries saved...
+				if ( false !== stripos( $this->user_options->customfields, 'Paragraph' ) ) {
+					$fields_array = explode( '--', $this->user_options->customfields );
+					foreach ( $fields_array as $key => $value ) {
+
+						// If the custom field is a 'Plain Text Entry' field...
+						if ( false !== stripos( $value, 'Paragraph' ) ) {
+
+							$indiv_fields_array = explode( ';', $value );
+
+							// If the user hasn't hidden this Custom Field from appearing in Colorbox...
+							if ( $this->trans->trans_31 === $indiv_fields_array[2] ) {
+
+								// If the Field name isn't blank or null...
+								if ( '' !== $indiv_fields_array[0] && null !== $indiv_fields_array[0] ) {
+
+									$for_label = str_replace( '_', ' ', $indiv_fields_array[0] );
+
+									// If the actual value for this field isn't blank...
+									if ( '' !== $book_info->{"$indiv_fields_array[0]"} && null !== $book_info->{"$indiv_fields_array[0]"} ) {
+
+										// Add row to final HTML.
+										$final_html = $final_html . '<p class="wpbooklist_description_p" id="wpbooklist-desc-title-id">' . $for_label . '</p><div class="wpbooklist_desc_p_class">' . stripslashes( html_entity_decode( $book_info->{"$indiv_fields_array[0]"} ) ) . '</div>';
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			return $final_html;
+
+		}
+
+		/** Function that adds in basic text fields to a book's Page.
+		 *
+		 *  @param array $book_info - The array that contains needed book info.
+		 */
+		public function wpbooklist_customfields_insert_page_view_basic_fields( $book_info ) {
+
+			// If there are fields saved...
+			$final_html = '';
+			if ( null !== $this->user_options->customfields || '' !== $this->user_options->customfields ) {
+
+				// If there are Plain-Text entries saved...
+				if ( false !== stripos( $this->user_options->customfields, 'Plain Text Entry' ) ) {
+					$fields_array = explode( '--', $this->user_options->customfields );
+					foreach ( $fields_array as $key => $value ) {
+
+						// If the custom field is a 'Plain Text Entry' field...
+						if ( false !== stripos( $value, 'Plain Text Entry' ) ) {
+
+							$indiv_fields_array = explode( ';', $value );
+
+							// If the user hasn't hidden this Custom Field from appearing in Colorbox...
+							if ( $this->trans->trans_31 === $indiv_fields_array[2] ) {
+
+								// If the Field name isn't blank or null...
+								if ( '' !== $indiv_fields_array[0] && null !== $indiv_fields_array[0] ) {
+
+									$for_label = str_replace( '_', ' ', $indiv_fields_array[0] );
+
+									// If the actual value for this field isn't blank...
+									if ( '' !== $book_info->{"$indiv_fields_array[0]"} && null !== $book_info->{"$indiv_fields_array[0]"} ) {
+
+										// Add row to final HTML.
+										$final_html = $final_html . '<div id="wpbl-pagetd-book-details-7">
+										<span>' . $for_label . ': </span>' . $book_info->{"$indiv_fields_array[0]"} . '</div>';
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			return $final_html;
+
+		}
+
+		/** Function that adds in basic text fields to a book's Page.
+		 *
+		 *  @param array $book_info - The array that contains needed book info.
+		 */
+		public function wpbooklist_customfields_insert_page_view_text_link_fields( $book_info ) {
+
+			// If there are fields saved...
+			$final_html = '';
+			// If there are Plain-Text entries saved...
+			if ( false !== stripos( $this->user_options->customfields, 'Text Link' ) ) {
+				$fields_array = explode( '--', $this->user_options->customfields );
+				foreach ( $fields_array as $key => $value ) {
+
+					// If the custom field is a 'Plain Text Entry' field...
+					if ( false !== stripos( $value, 'Text Link' ) ) {
+
+						$indiv_fields_array = explode( ';', $value );
+
+						// If the user hasn't hidden this Custom Field from appearing in Colorbox...
+						if ( $this->trans->trans_31 === $indiv_fields_array[2] ) {
+
+							// If the Field name isn't blank or null...
+							if ( '' !== $indiv_fields_array[0] && null !== $indiv_fields_array[0] ) {
+
+								// If the actual value for this field isn't blank...
+								if ( '' !== $book_info->{"$indiv_fields_array[0]"} && null !== $book_info->{"$indiv_fields_array[0]"} ) {
+
+									$values_array = explode( '---', $book_info->{"$indiv_fields_array[0]"} );
+
+									if ( '' !== $values_array[0] && '' !== $values_array[1] && null !== $values_array[0] && null !== $values_array[1] ) {
+
+										// Modify the URL if needed.
+										if ( false === stripos( $values_array[1], 'http://' ) && false === stripos( $values_array[1], 'https://' ) ) {
+											$values_array[1] = 'http://' . $values_array[1];
+										}
+
+										// Add row to final HTML.
+										$final_html = $final_html . '<div id="wpbl-pagetd-book-details-7">
+										<span><a class="wpbooklist-bold-stats-class" id="wpbooklist_bold" href="' . $values_array[1] . '">' . $values_array[0] . '</a></span></div>';
+
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			return $final_html;
+
+		}
+
+		/** Function that adds in basic text fields to a book's Page.
+		 *
+		 *  @param array $book_info - The array that contains needed book info.
+		 */
+		public function wpbooklist_customfields_insert_page_view_dropdown_fields( $book_info ) {
+
+			// If there are fields saved...
+			$final_html = '';
+			if ( null !== $this->user_options->customfields || '' !== $this->user_options->customfields ) {
+
+				// If there are Plain-Text entries saved...
+				if ( false !== stripos( $this->user_options->customfields, 'Drop-Down' ) ) {
+					$fields_array = explode( '--', $this->user_options->customfields );
+					foreach ( $fields_array as $key => $value ) {
+
+						// If the custom field is a 'Plain Text Entry' field...
+						if ( false !== stripos( $value, 'Drop-Down' ) ) {
+
+							$indiv_fields_array = explode( ';', $value );
+
+							// If the user hasn't hidden this Custom Field from appearing in Colorbox...
+							if ( $this->trans->trans_31 === $indiv_fields_array[2] ) {
+
+								// If the Field name isn't blank or null...
+								if ( '' !== $indiv_fields_array[0] && null !== $indiv_fields_array[0] ) {
+
+									$for_label = str_replace( '_', ' ', $indiv_fields_array[0] );
+
+									// If the actual value for this field isn't blank...
+									if ( '' !== $book_info->{"$indiv_fields_array[0]"} && null !== $book_info->{"$indiv_fields_array[0]"} ) {
+
+										// Add row to final HTML.
+										$final_html = $final_html . '<div id="wpbl-pagetd-book-details-7"><span class="wpbooklist-bold-stats-value">' . $for_label . ': </span>' . $book_info->{"$indiv_fields_array[0]"} . '</div>';
+
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			return $final_html;
+
+		}
+
+		/** Function that adds in basic text fields to a book's Page.
+		 *
+		 *  @param array $book_info - The array that contains needed book info.
+		 */
+		public function wpbooklist_customfields_insert_page_view_image_link_fields( $book_info ) {
+
+			// If there are fields saved...
+			$final_html = '';
+			// If there are Plain-Text entries saved...
+			if ( false !== stripos( $this->user_options->customfields, 'Image Link' ) ) {
+				$fields_array = explode( '--', $this->user_options->customfields );
+				foreach ( $fields_array as $key => $value ) {
+
+					// If the custom field is a 'Plain Text Entry' field...
+					if ( false !== stripos( $value, 'Image Link' ) ) {
+
+						$indiv_fields_array = explode( ';', $value );
+
+						// If the user hasn't hidden this Custom Field from appearing in Colorbox...
+						if ( $this->trans->trans_31 === $indiv_fields_array[2] ) {
+
+							// If the Field name isn't blank or null...
+							if ( '' !== $indiv_fields_array[0] && null !== $indiv_fields_array[0] ) {
+
+								// If the actual value for this field isn't blank...
+								if ( '' !== $book_info->{"$indiv_fields_array[0]"} && null !== $book_info->{"$indiv_fields_array[0]"} ) {
+
+									$values_array = explode( '---', $book_info->{"$indiv_fields_array[0]"} );
+
+									if ( '' !== $values_array[0] && '' !== $values_array[1] && null !== $values_array[0] && null !== $values_array[1] ) {
+
+										// Modify the URL if needed.
+										if ( false === stripos( $values_array[1], 'http://' ) && false === stripos( $values_array[1], 'https://' ) ) {
+											$values_array[1] = 'http://' . $values_array[1];
+										}
+
+										// Add row to final HTML.
+										$final_html = $final_html . '<div id="wpbl-pagetd-book-details-7">
+										<span><a class="wpbooklist-bold-stats-class" id="wpbooklist_bold" href="' . $values_array[1] . '"><img style="width:50px; display: inline-block; margin-left:5px; margin-right:5px;" src="' . $values_array[0] . '"</a></span></div>';
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			return $final_html;
+
+		}
+
+		/** Function that adds in basic text fields to a book's Page.
+		 *
+		 *  @param array $book_info - The array that contains needed book info.
+		 */
+		public function wpbooklist_customfields_insert_page_view_paragraph_fields( $book_info ) {
+
+			// If there are fields saved...
+			$final_html = '';
+			if ( null !== $this->user_options->customfields || '' !== $this->user_options->customfields ) {
+
+				// If there are Plain-Text entries saved...
+				if ( false !== stripos( $this->user_options->customfields, 'Paragraph' ) ) {
+					$fields_array = explode( '--', $this->user_options->customfields );
+					foreach ( $fields_array as $key => $value ) {
+
+						// If the custom field is a 'Plain Text Entry' field...
+						if ( false !== stripos( $value, 'Paragraph' ) ) {
+
+							$indiv_fields_array = explode( ';', $value );
+
+							// If the user hasn't hidden this Custom Field from appearing in Colorbox...
+							if ( $this->trans->trans_31 === $indiv_fields_array[2] ) {
+
+								// If the Field name isn't blank or null...
+								if ( '' !== $indiv_fields_array[0] && null !== $indiv_fields_array[0] ) {
+
+									$for_label = str_replace( '_', ' ', $indiv_fields_array[0] );
+
+									// If the actual value for this field isn't blank...
+									if ( '' !== $book_info->{"$indiv_fields_array[0]"} && null !== $book_info->{"$indiv_fields_array[0]"} ) {
+
+										// Add row to final HTML.
+										$final_html = $final_html . '<div id="wpbl-pagetd-book-description-div"><h5 id="wpbl-pagetd-book-description-h5">' . $for_label . '</h5><div id="wpbl-pagetd-book-description-contents">' . stripslashes( html_entity_decode( $book_info->{"$indiv_fields_array[0]"} ) ) . '</div></div>';
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			return $final_html;
+
+		}
+
+		/** Function that adds in basic text fields to a book's Page.
+		 *
+		 *  @param array $book_info - The array that contains needed book info.
+		 */
+		public function wpbooklist_customfields_insert_post_view_basic_fields( $book_info ) {
+
+			// If there are fields saved...
+			$final_html = '';
+			if ( null !== $this->user_options->customfields || '' !== $this->user_options->customfields ) {
+
+				// If there are Plain-Text entries saved...
+				if ( false !== stripos( $this->user_options->customfields, 'Plain Text Entry' ) ) {
+					$fields_array = explode( '--', $this->user_options->customfields );
+					foreach ( $fields_array as $key => $value ) {
+
+						// If the custom field is a 'Plain Text Entry' field...
+						if ( false !== stripos( $value, 'Plain Text Entry' ) ) {
+
+							$indiv_fields_array = explode( ';', $value );
+
+							// If the user hasn't hidden this Custom Field from appearing in Colorbox...
+							if ( $this->trans->trans_31 === $indiv_fields_array[2] ) {
+
+								// If the Field name isn't blank or null...
+								if ( '' !== $indiv_fields_array[0] && null !== $indiv_fields_array[0] ) {
+
+									$for_label = str_replace( '_', ' ', $indiv_fields_array[0] );
+
+									// If the actual value for this field isn't blank...
+									if ( '' !== $book_info->{"$indiv_fields_array[0]"} && null !== $book_info->{"$indiv_fields_array[0]"} ) {
+
+										// Add row to final HTML.
+										$final_html = $final_html . '<div id="wpbl-posttd-book-details-7">
+										<span>' . $for_label . ': </span>' . $book_info->{"$indiv_fields_array[0]"} . '</div>';
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			return $final_html;
+
+		}
+
+		/** Function that adds in basic text fields to a book's Page.
+		 *
+		 *  @param array $book_info - The array that contains needed book info.
+		 */
+		public function wpbooklist_customfields_insert_post_view_text_link_fields( $book_info ) {
+
+			// If there are fields saved...
+			$final_html = '';
+			// If there are Plain-Text entries saved...
+			if ( false !== stripos( $this->user_options->customfields, 'Text Link' ) ) {
+				$fields_array = explode( '--', $this->user_options->customfields );
+				foreach ( $fields_array as $key => $value ) {
+
+					// If the custom field is a 'Plain Text Entry' field...
+					if ( false !== stripos( $value, 'Text Link' ) ) {
+
+						$indiv_fields_array = explode( ';', $value );
+
+						// If the user hasn't hidden this Custom Field from appearing in Colorbox...
+						if ( $this->trans->trans_31 === $indiv_fields_array[2] ) {
+
+							// If the Field name isn't blank or null...
+							if ( '' !== $indiv_fields_array[0] && null !== $indiv_fields_array[0] ) {
+
+								// If the actual value for this field isn't blank...
+								if ( '' !== $book_info->{"$indiv_fields_array[0]"} && null !== $book_info->{"$indiv_fields_array[0]"} ) {
+
+									$values_array = explode( '---', $book_info->{"$indiv_fields_array[0]"} );
+
+									if ( '' !== $values_array[0] && '' !== $values_array[1] && null !== $values_array[0] && null !== $values_array[1] ) {
+
+										// Modify the URL if needed.
+										if ( false === stripos( $values_array[1], 'http://' ) && false === stripos( $values_array[1], 'https://' ) ) {
+											$values_array[1] = 'http://' . $values_array[1];
+										}
+
+										// Add row to final HTML.
+										$final_html = $final_html . '<div id="wpbl-posttd-book-details-7">
+										<span><a class="wpbooklist-bold-stats-class" id="wpbooklist_bold" href="' . $values_array[1] . '">' . $values_array[0] . '</a></span></div>';
+
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			return $final_html;
+
+		}
+
+		/** Function that adds in basic text fields to a book's Page.
+		 *
+		 *  @param array $book_info - The array that contains needed book info.
+		 */
+		public function wpbooklist_customfields_insert_post_view_dropdown_fields( $book_info ) {
+
+			// If there are fields saved...
+			$final_html = '';
+			if ( null !== $this->user_options->customfields || '' !== $this->user_options->customfields ) {
+
+				// If there are Plain-Text entries saved...
+				if ( false !== stripos( $this->user_options->customfields, 'Drop-Down' ) ) {
+					$fields_array = explode( '--', $this->user_options->customfields );
+					foreach ( $fields_array as $key => $value ) {
+
+						// If the custom field is a 'Plain Text Entry' field...
+						if ( false !== stripos( $value, 'Drop-Down' ) ) {
+
+							$indiv_fields_array = explode( ';', $value );
+
+							// If the user hasn't hidden this Custom Field from appearing in Colorbox...
+							if ( $this->trans->trans_31 === $indiv_fields_array[2] ) {
+
+								// If the Field name isn't blank or null...
+								if ( '' !== $indiv_fields_array[0] && null !== $indiv_fields_array[0] ) {
+
+									$for_label = str_replace( '_', ' ', $indiv_fields_array[0] );
+
+									// If the actual value for this field isn't blank...
+									if ( '' !== $book_info->{"$indiv_fields_array[0]"} && null !== $book_info->{"$indiv_fields_array[0]"} ) {
+
+										// Add row to final HTML.
+										$final_html = $final_html . '<div id="wpbl-posttd-book-details-7"><span class="wpbooklist-bold-stats-value">' . $for_label . ': </span>' . $book_info->{"$indiv_fields_array[0]"} . '</div>';
+
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			return $final_html;
+
+		}
+
+		/** Function that adds in basic text fields to a book's Page.
+		 *
+		 *  @param array $book_info - The array that contains needed book info.
+		 */
+		public function wpbooklist_customfields_insert_post_view_image_link_fields( $book_info ) {
+
+			// If there are fields saved...
+			$final_html = '';
+			// If there are Plain-Text entries saved...
+			if ( false !== stripos( $this->user_options->customfields, 'Image Link' ) ) {
+				$fields_array = explode( '--', $this->user_options->customfields );
+				foreach ( $fields_array as $key => $value ) {
+
+					// If the custom field is a 'Plain Text Entry' field...
+					if ( false !== stripos( $value, 'Image Link' ) ) {
+
+						$indiv_fields_array = explode( ';', $value );
+
+						// If the user hasn't hidden this Custom Field from appearing in Colorbox...
+						if ( $this->trans->trans_31 === $indiv_fields_array[2] ) {
+
+							// If the Field name isn't blank or null...
+							if ( '' !== $indiv_fields_array[0] && null !== $indiv_fields_array[0] ) {
+
+								// If the actual value for this field isn't blank...
+								if ( '' !== $book_info->{"$indiv_fields_array[0]"} && null !== $book_info->{"$indiv_fields_array[0]"} ) {
+
+									$values_array = explode( '---', $book_info->{"$indiv_fields_array[0]"} );
+
+									if ( '' !== $values_array[0] && '' !== $values_array[1] && null !== $values_array[0] && null !== $values_array[1] ) {
+
+										// Modify the URL if needed.
+										if ( false === stripos( $values_array[1], 'http://' ) && false === stripos( $values_array[1], 'https://' ) ) {
+											$values_array[1] = 'http://' . $values_array[1];
+										}
+
+										// Add row to final HTML.
+										$final_html = $final_html . '<div id="wpbl-posttd-book-details-7">
+										<span><a class="wpbooklist-bold-stats-class" id="wpbooklist_bold" href="' . $values_array[1] . '"><img style="width:50px; display: inline-block; margin-left:5px; margin-right:5px;" src="' . $values_array[0] . '"</a></span></div>';
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			return $final_html;
+
+		}
+
+		/** Function that adds in basic text fields to a book's Page.
+		 *
+		 *  @param array $book_info - The array that contains needed book info.
+		 */
+		public function wpbooklist_customfields_insert_post_view_paragraph_fields( $book_info ) {
+
+			// If there are fields saved...
+			$final_html = '';
+			if ( null !== $this->user_options->customfields || '' !== $this->user_options->customfields ) {
+
+				// If there are Plain-Text entries saved...
+				if ( false !== stripos( $this->user_options->customfields, 'Paragraph' ) ) {
+					$fields_array = explode( '--', $this->user_options->customfields );
+					foreach ( $fields_array as $key => $value ) {
+
+						// If the custom field is a 'Plain Text Entry' field...
+						if ( false !== stripos( $value, 'Paragraph' ) ) {
+
+							$indiv_fields_array = explode( ';', $value );
+
+							// If the user hasn't hidden this Custom Field from appearing in Colorbox...
+							if ( $this->trans->trans_31 === $indiv_fields_array[2] ) {
+
+								// If the Field name isn't blank or null...
+								if ( '' !== $indiv_fields_array[0] && null !== $indiv_fields_array[0] ) {
+
+									$for_label = str_replace( '_', ' ', $indiv_fields_array[0] );
+
+									// If the actual value for this field isn't blank...
+									if ( '' !== $book_info->{"$indiv_fields_array[0]"} && null !== $book_info->{"$indiv_fields_array[0]"} ) {
+
+										// Add row to final HTML.
+										$final_html = $final_html . '<div id="wpbl-posttd-book-description-div"><h5 id="wpbl-posttd-book-description-h5">' . $for_label . '</h5><div id="wpbl-posttd-book-description-contents">' . stripslashes( html_entity_decode( $book_info->{"$indiv_fields_array[0]"} ) ) . '</div></div>';
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			return $final_html;
+
+		}
 	}
 endif;
