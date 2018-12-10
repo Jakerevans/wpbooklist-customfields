@@ -123,6 +123,19 @@ if ( ! class_exists( 'Edit_CustomFields_Form', false ) ) :
 							';
 
 						} else {
+
+							// Build the options string for hiding from Book/Library View.
+							if ( $this->trans->trans_31 === $exploded_fields[3] ) {
+								$hide_library_view_options =
+								'<option>' . $this->trans->trans_30 . '</option>
+								<option selected>' . $this->trans->trans_31 . '</option>';
+								$lib_display = $this->trans->trans_31;
+							} else {
+								$hide_library_view_options =
+								'<option selected>' . $this->trans->trans_30 . '</option>
+								<option>' . $this->trans->trans_31 . '</option>';
+								$lib_display = $this->trans->trans_30;
+							}
 							
 							$dropdown_string = $dropdown_string . '
 							<div class="wpbooklist-customfields-edit-indiv-container-div" id="wpbooklist-customfields-edit-indiv-container-div-' . $key . '">

@@ -798,17 +798,20 @@ if ( ! class_exists( 'CustomFields_General_Functions', false ) ) :
 
 									$values_array = explode( '---', $book_info->{"$indiv_fields_array[0]"} );
 
-									if ( '' !== $values_array[0] && '' !== $values_array[1] && null !== $values_array[0] && null !== $values_array[1] ) {
+									if ( array_key_exists( 0, $values_array ) && array_key_exists( 1, $values_array ) ) {
 
-										// Modify the URL if needed.
-										if ( false === stripos( $values_array[1], 'http://' ) && false === stripos( $values_array[1], 'https://' ) ) {
-											$values_array[1] = 'http://' . $values_array[1];
+										if ( '' !== $values_array[0] && '' !== $values_array[1] && null !== $values_array[0] && null !== $values_array[1] ) {
+
+											// Modify the URL if needed.
+											if ( false === stripos( $values_array[1], 'http://' ) && false === stripos( $values_array[1], 'https://' ) ) {
+												$values_array[1] = 'http://' . $values_array[1];
+											}
+
+											// Add row to final HTML.
+											$final_html = $final_html . '<div id="wpbl-pagetd-book-details-7">
+											<span><a class="wpbooklist-bold-stats-class" id="wpbooklist_bold" href="' . $values_array[1] . '">' . $values_array[0] . '</a></span></div>';
+
 										}
-
-										// Add row to final HTML.
-										$final_html = $final_html . '<div id="wpbl-pagetd-book-details-7">
-										<span><a class="wpbooklist-bold-stats-class" id="wpbooklist_bold" href="' . $values_array[1] . '">' . $values_array[0] . '</a></span></div>';
-
 									}
 								}
 							}
@@ -1038,17 +1041,20 @@ if ( ! class_exists( 'CustomFields_General_Functions', false ) ) :
 
 									$values_array = explode( '---', $book_info->{"$indiv_fields_array[0]"} );
 
-									if ( '' !== $values_array[0] && '' !== $values_array[1] && null !== $values_array[0] && null !== $values_array[1] ) {
+									if ( array_key_exists( 0, $values_array ) && array_key_exists( 1, $values_array ) ) {
 
-										// Modify the URL if needed.
-										if ( false === stripos( $values_array[1], 'http://' ) && false === stripos( $values_array[1], 'https://' ) ) {
-											$values_array[1] = 'http://' . $values_array[1];
+										if ( '' !== $values_array[0] && '' !== $values_array[1] && null !== $values_array[0] && null !== $values_array[1] ) {
+
+											// Modify the URL if needed.
+											if ( false === stripos( $values_array[1], 'http://' ) && false === stripos( $values_array[1], 'https://' ) ) {
+												$values_array[1] = 'http://' . $values_array[1];
+											}
+
+											// Add row to final HTML.
+											$final_html = $final_html . '<div id="wpbl-posttd-book-details-7">
+											<span><a class="wpbooklist-bold-stats-class" id="wpbooklist_bold" href="' . $values_array[1] . '">' . $values_array[0] . '</a></span></div>';
+
 										}
-
-										// Add row to final HTML.
-										$final_html = $final_html . '<div id="wpbl-posttd-book-details-7">
-										<span><a class="wpbooklist-bold-stats-class" id="wpbooklist_bold" href="' . $values_array[1] . '">' . $values_array[0] . '</a></span></div>';
-
 									}
 								}
 							}
