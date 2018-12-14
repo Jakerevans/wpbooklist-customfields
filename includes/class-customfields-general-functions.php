@@ -426,7 +426,7 @@ if ( ! class_exists( 'CustomFields_General_Functions', false ) ) :
 								$final_html = $final_html . '<div class="wpbooklist-book-form-indiv-attribute-container">
 									<img class="wpbooklist-icon-image-question" data-label="book-form-customfield-dropdown" src="' . ROOT_IMG_ICONS_URL . 'question-black.svg">
 									<label class="wpbooklist-question-icon-label" for="book-genre">' . $for_label . '</label>
-									<select class="wpbooklist-addbook-select-default" id="wpbooklist-customfield-dropdown-' . $indiv_fields_array[0] . '" >
+									<select class="wpbooklist-addbook-select-default wpbooklist-addbook-customfield-dropdown-entry" name="book-customfield-' . $indiv_fields_array[0] . '" id="wpbooklist-customfield-dropdown-' . $indiv_fields_array[0] . '" >
 										' . $option_string . '
 									</select>
 								</div>';
