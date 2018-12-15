@@ -417,7 +417,7 @@ if ( ! class_exists( 'CustomFields_General_Functions', false ) ) :
 
 								// Build Option string.
 								$options_fields_array = explode( '/', $indiv_fields_array[4] );
-								$option_string = '<option selected disabled default>' . $this->trans->trans_229 . '</option>';
+								$option_string = '<option value="default" selected disabled default>' . $this->trans->trans_229 . '</option>';
 								foreach ( $options_fields_array as $key => $option) {
 									$option_string = $option_string . '<option>' . $option . '</option>';
 								}
