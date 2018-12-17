@@ -36,7 +36,7 @@ if ( ! class_exists( 'CustomFields_Compat_Functions', false ) ) :
 			$split_string     = explode( 'customfields', $row->extensionversions );
 			$first_part       = $split_string[0];
 			$last_part        = substr( $split_string[1], 5 );
-			$this->new_string = $first_part . 'customfields' . CUSTOMFIELDS_VERSION_NUM . $last_part;
+			$this->new_string = $first_part . 'customfields' . WPBOOKLIST_CUSTOMFIELDS_VERSION_NUM . $last_part;
 
 			// Now call the function that will update the version number, which will ensure none of these function ever run again until the next update/upgrade.
 			$this->customfields_update_version_number_function();

@@ -37,6 +37,19 @@ if ( ! class_exists( 'CustomFields_General_Functions', false ) ) :
 
 		}
 
+		/**
+		 * Verifies that the core WPBookList plugin is installed and activated - otherwise, the Extension doesn't load and a message is displayed to the user.
+		 */
+		public function wpbooklist_customfields_core_plugin_required() {
+
+			// Require core WPBookList Plugin.
+			if ( ! is_plugin_active( 'wpbooklist/wpbooklist.php' ) && current_user_can( 'activate_plugins' ) ) {
+
+				// Stop activation redirect and show error.
+				wp_die( 'Whoops! This WPBookList Extension requires the Core WPBookList Plugin to be installed and activated! <br><a target="_blank" href="https://wordpress.org/plugins/wpbooklist/">Download WPBookList Here!</a><br><br><a href="' . admin_url( 'plugins.php' ) . '">&laquo; Return to Plugins</a>');
+			}
+		}
+
 		/** Functions that loads up the menu page entry for this Extension.
 		 *
 		 *  @param array $submenu_array - The array that contains submenu entries to add to.
@@ -81,9 +94,9 @@ if ( ! class_exists( 'CustomFields_General_Functions', false ) ) :
 				$split_string = explode( 'customfields', $existing_string->extensionversions );
 				$first_part   = $split_string[0];
 				$last_part    = substr( $split_string[1], 5 );
-				$new_string   = $first_part . 'customfields' . CUSTOMFIELDS_VERSION_NUM . $last_part;
+				$new_string   = $first_part . 'customfields' . WPBOOKLIST_CUSTOMFIELDS_VERSION_NUM . $last_part;
 			} else {
-				$new_string = $existing_string->extensionversions . 'customfields' . CUSTOMFIELDS_VERSION_NUM;
+				$new_string = $existing_string->extensionversions . 'customfields' . WPBOOKLIST_CUSTOMFIELDS_VERSION_NUM;
 			}
 
 			$data         = array(
@@ -111,7 +124,7 @@ if ( ! class_exists( 'CustomFields_General_Functions', false ) ) :
 				$version      = substr( $split_string[1], 0, 5 );
 
 				// If version number does not match the current version number found in wpbooklist.php, call the Compat class and run upgrade functions.
-				if ( CUSTOMFIELDS_VERSION_NUM !== $version ) {
+				if ( WPBOOKLIST_CUSTOMFIELDS_VERSION_NUM !== $version ) {
 					require_once CUSTOMFIELDS_CLASS_COMPAT_DIR . 'class-customfields-compat-functions.php';
 					$compat_class = new CustomFields_Compat_Functions();
 				}
@@ -156,7 +169,7 @@ if ( ! class_exists( 'CustomFields_General_Functions', false ) ) :
 		 */
 		public function wpbooklist_customfields_frontend_js() {
 
-			wp_register_script( 'wpbooklist_customfields_frontendjs', CUSTOMFIELDS_JS_URL . 'wpbooklist_customfields_frontend.min.js', array( 'jquery' ), CUSTOMFIELDS_VERSION_NUM, true );
+			wp_register_script( 'wpbooklist_customfields_frontendjs', CUSTOMFIELDS_JS_URL . 'wpbooklist_customfields_frontend.min.js', array( 'jquery' ), WPBOOKLIST_CUSTOMFIELDS_VERSION_NUM, true );
 
 			// Next 4-5 lines are required to allow translations of strings that would otherwise live in the wpbooklist-admin-js.js JavaScript File.
 			require_once CUSTOMFIELDS_CLASS_TRANSLATIONS_DIR . 'class-wpbooklist-customfields-translations.php';
@@ -186,7 +199,7 @@ if ( ! class_exists( 'CustomFields_General_Functions', false ) ) :
 		 */
 		public function wpbooklist_customfields_admin_style() {
 
-			wp_register_style( 'wpbooklist_customfields_adminui', CUSTOMFIELDS_CSS_URL . 'wpbooklist-customfields-main-admin.css', null, CUSTOMFIELDS_VERSION_NUM );
+			wp_register_style( 'wpbooklist_customfields_adminui', CUSTOMFIELDS_CSS_URL . 'wpbooklist-customfields-main-admin.css', null, WPBOOKLIST_CUSTOMFIELDS_VERSION_NUM );
 			wp_enqueue_style( 'wpbooklist_customfields_adminui' );
 
 		}
@@ -196,7 +209,7 @@ if ( ! class_exists( 'CustomFields_General_Functions', false ) ) :
 		 */
 		public function wpbooklist_customfields_frontend_style() {
 
-			wp_register_style( 'wpbooklist_customfields_frontendui', CUSTOMFIELDS_CSS_URL . 'wpbooklist-customfields-main-frontend.css', null, CUSTOMFIELDS_VERSION_NUM );
+			wp_register_style( 'wpbooklist_customfields_frontendui', CUSTOMFIELDS_CSS_URL . 'wpbooklist-customfields-main-frontend.css', null, WPBOOKLIST_CUSTOMFIELDS_VERSION_NUM );
 			wp_enqueue_style( 'wpbooklist_customfields_frontendui' );
 
 		}
