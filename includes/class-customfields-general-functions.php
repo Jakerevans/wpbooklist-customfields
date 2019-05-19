@@ -386,8 +386,8 @@ if ( ! class_exists( 'CustomFields_General_Functions', false ) ) :
 										<img class="wpbooklist-addbook-preview-img" id="wpbooklist-addbook-preview-img-' . $for_ids . '"  src="' . ROOT_IMG_ICONS_URL . 'book-placeholder.svg" />
 									</div>
 									<div class="wpbooklist-book-form-indiv-attribute-image-input-container">
-										<input type="text" placeholder="' . $this->trans->trans_172 . '" class="wpbooklist-addbook-image-url-input" id="wpbooklist-addbook-' . $for_ids . '" data-previewid="wpbooklist-addbook-preview-img-' . $for_ids . '" name="book-customfield-imagelink-image-' . $for_ids . '">
-										<input type="text" placeholder="' . $this->trans->trans_228 . '" class="wpbooklist-addbook-image-url-input" id="wpbooklist-addbook-' . $for_ids . '" data-previewid="wpbooklist-addbook-preview-img-' . $for_ids . '" name="book-customfield-imagelink-text-' . $for_ids . '">
+										<input type="text" placeholder="' . $this->trans->trans_172 . '" class="wpbooklist-addbook-image-url-image-input" id="wpbooklist-addbook-' . $for_ids . '" data-previewid="wpbooklist-addbook-preview-img-' . $for_ids . '" name="book-customfield-imagelink-image-' . $for_ids . '">
+										<input type="text" placeholder="' . $this->trans->trans_228 . '" class="wpbooklist-addbook-image-url-href-input" id="wpbooklist-addbook-' . $for_ids . '" data-previewid="wpbooklist-addbook-preview-img-' . $for_ids . '" name="book-customfield-imagelink-text-' . $for_ids . '">
 									</div>
 								</div>';
 							}
@@ -486,7 +486,7 @@ if ( ! class_exists( 'CustomFields_General_Functions', false ) ) :
 								$final_html = $final_html . '<div class="wpbooklist-book-form-indiv-attribute-container">
 									<img class="wpbooklist-icon-image-question" data-label="book-form-customfield-paragraph" src="' . ROOT_IMG_ICONS_URL . 'question-black.svg">
 									<label class="wpbooklist-question-icon-label" for="book-notes">' . $for_label . '</label>
-									<textarea id="wpbooklist-customfield-textarea-' . $indiv_fields_array[0] . '" name="book-notes"></textarea>
+									<textarea class="wpbooklist-addbook-customfield-paragraph-input" id="wpbooklist-customfield-textarea-' . $indiv_fields_array[0] . '" name="book-customfield-' . $indiv_fields_array[0] . '"></textarea>
 								</div>';
 							}
 						}

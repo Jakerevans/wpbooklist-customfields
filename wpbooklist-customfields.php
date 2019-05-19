@@ -11,7 +11,7 @@
  * Plugin Name: WPBookList CustomFields Extension
  * Plugin URI: https://www.jakerevans.com
  * Description: A Extension for WPBookList that allows the user to create their own custom fields for each book.
- * Version: 6.0.0
+ * Version: 1.0.0
  * Author: Jake Evans
  * Text Domain: wpbooklist
  * Author URI: https://www.jakerevans.com
@@ -36,8 +36,16 @@ global $wpdb;
 		define( 'WPBOOKLIST_VERSION_NUM', '6.1.2' );
 	}
 
+
+
+	// This is the URL our updater / license checker pings. This should be the URL of the site with EDD installed.
+	define( 'EDD_SL_STORE_URL_CUSTOMFIELDS', 'https://wpbooklist.com' );
+
+	// The id of your product in EDD.
+	define( 'EDD_SL_ITEM_ID_CUSTOMFIELDS', 13515 );
+
 	// This Extension's Version Number.
-	define( 'WPBOOKLIST_CUSTOMFIELDS_VERSION_NUM', '6.1.2' );
+	define( 'WPBOOKLIST_CUSTOMFIELDS_VERSION_NUM', '1.0.0' );
 
 	// Root plugin folder directory.
 	define( 'CUSTOMFIELDS_ROOT_DIR', plugin_dir_path( __FILE__ ) );
@@ -90,6 +98,9 @@ global $wpdb;
 
 	// Root Classes Directory.
 	define( 'CUSTOMFIELDS_CLASS_DIR', CUSTOMFIELDS_ROOT_DIR . 'includes/classes/' );
+
+	// Root Update Directory.
+	define( 'CUSTOMFIELDS_UPDATE_DIR', CUSTOMFIELDS_CLASS_DIR . 'update/' );
 
 	// Root REST Classes Directory.
 	define( 'CUSTOMFIELDS_CLASS_REST_DIR', CUSTOMFIELDS_ROOT_DIR . 'includes/classes/rest/' );

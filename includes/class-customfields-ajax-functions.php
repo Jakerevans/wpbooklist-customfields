@@ -116,6 +116,18 @@ if ( ! class_exists( 'CustomFields_Ajax_Functions', false ) ) :
 					$default_column_create_result = $wpdb->query( "ALTER TABLE $default_book_log ADD " . $name . ' TEXT' );
 				}
 
+				// Add proposed custom field to the db of the Submissions Extenison Temp Table.
+				$submissions_table = $wpdb->prefix . 'wpbooklist_submissions_tempbooks';
+				if ( $submissions_table === $wpdb->get_var( "SHOW TABLES LIKE '$submissions_table'" ) ) {
+
+					// If it's a Paragraph type, create column as MEDIUMTEXT, otherwise, as TEXT.
+					if ( $this->trans->trans_12 === $type ) {
+						$submissions_column_create_result = $wpdb->query( "ALTER TABLE $submissions_table ADD " . $name . ' MEDIUMTEXT' );
+					} else {
+						$submissions_column_create_result = $wpdb->query( "ALTER TABLE $submissions_table ADD " . $name . ' TEXT' );
+					}
+				}
+
 				// If we've encountered an error adding to the default table, end execution right here.
 				if ( true !== $default_column_create_result ) {
 					wp_die( '0--sep--' . $wpdb->last_error . '--sep--Error-After-Default-Table-Attempt' );
@@ -191,6 +203,12 @@ if ( ! class_exists( 'CustomFields_Ajax_Functions', false ) ) :
 
 			// Drop the columns in default saved book log table.
 			$default_column_delete_result = $wpdb->query( 'ALTER TABLE ' . $wpdb->prefix . 'wpbooklist_jre_saved_book_log DROP COLUMN ' . $name );
+
+			// Drop the columns in the Submissions Extenison Temp Table.
+			$submissions_table = $wpdb->prefix . 'wpbooklist_submissions_tempbooks';
+			if ( $submissions_table === $wpdb->get_var( "SHOW TABLES LIKE '$test_name'" ) ) {
+				$default_column_delete_result = $wpdb->query( 'ALTER TABLE ' . $submissions_table . ' DROP COLUMN ' . $name );
+			}
 
 			// Now drop from the default Display Options table.
 			$display_options_create_result = $wpdb->query( 'ALTER TABLE ' . $wpdb->prefix . 'wpbooklist_jre_user_options DROP COLUMN hide' . $name );
